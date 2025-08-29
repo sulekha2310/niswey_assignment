@@ -21,9 +21,6 @@ Route::get('/', function () {
 Route::get('/', function(){ return redirect()->route('contacts.index'); });
 Route::resource('contacts', ContactController::class);
 
-// Route::get('contacts-import', [ContactController::class,'importForm'])->name('contacts.import.form');
-// Route::post('contacts-import', [ContactController::class,'import'])->name('contacts.import');
-
 Route::get('contacts-import', [ContactController::class, 'importForm'])->name('contacts.import.form');
 Route::post('contacts-import', [ContactController::class, 'importXml'])->name('contacts.importXml');
 
