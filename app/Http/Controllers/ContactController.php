@@ -60,7 +60,6 @@ class ContactController extends Controller
         return redirect()->route('contacts.index')->with('success', 'Contact deleted successfully');
     }
 
-    // Show upload form
     public function importForm()
     {
         return view('contacts.import');
@@ -68,18 +67,18 @@ class ContactController extends Controller
 
     public function importXml(Request $request)
     {
-        // Step 1: basic validation (file must exist)
+        // validation
         $request->validate([
-            'xml_file' => 'required|file', // remove mimes:xml
+            'xml_file' => 'required|file',
         ]);
 
-        // Step 2: check extension manually
+        // check extension for xml
         $extension = $request->file('xml_file')->getClientOriginalExtension();
         if (strtolower($extension) !== 'xml') {
             return back()->withErrors(['xml_file' => 'The file must have .xml extension']);
         }
 
-        // Step 3: proceed with loading XML and importing contacts
+        // Process XML and import contacts
         try {
             $xml = simplexml_load_file($request->file('xml_file')->getRealPath());
         } catch (\Exception $e) {
@@ -105,7 +104,6 @@ class ContactController extends Controller
             $imported++;
         }
 
-        // return redirect()->route('contacts.index')->with('success', "$imported unique contacts imported, $skipped skipped.");
         return redirect()->route('contacts.index')->with('success', "$imported unique contacts imported");
     }
 
